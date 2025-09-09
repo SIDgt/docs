@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Avance - Proyecto UDV</title>
+    <style>
+        /* Optimizado para pantalla - removido @page */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            margin: 0;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            border-bottom: 3px solid #1e40af;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .company-logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        .report-title {
+            font-size: 1.8em;
+            color: #023047;
+            margin-bottom: 5px;
+        }
+        
+        .report-subtitle {
+            color: #6b7280;
+            font-size: 1.1em;
+        }
+
+        .nota {
+            color: #af0404;
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .calendars-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .calendars-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        .calendar {
+            flex: 1;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .calendar-header {
+            background: #f3f4f6;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #d1d5db;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        
+        .day-header {
+            background: #e5e7eb;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #4b5563;
+            border-bottom: 1px solid #d1d5db;
+        }
+        
+        .day {
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 0.9em;
+            border-right: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f3f4f6;
+            min-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .day.meeting {
+            background: #fff3cd;
+            color: #023047;
+            font-weight: bold;
+            border: 2px solid #023047;
+        }
+        
+        .day.other-month {
+            color: #d1d5db;
+        }
+        
+        .meetings-summary {
+            border: 2px solid #1e40af;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f8fafc;
+            margin-top: 20px;
+        }
+        
+        .meetings-summary h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .meeting-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-left: 4px solid #1e40af;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .meeting-date {
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 5px;
+        }
+        
+        .meeting-description {
+            color: #4b5563;
+            text-align: justify;
+        }
+        
+        .modules-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            table-layout: fixed;
+        }
+        
+        .modules-table th:nth-child(1),
+        .modules-table td:nth-child(1) {
+            width: 40%;
+        }
+        
+        .modules-table th:nth-child(2),
+        .modules-table td:nth-child(2) {
+            width: 25%;
+        }
+        
+        .modules-table th:nth-child(3),
+        .modules-table td:nth-child(3) {
+            width: 35%;
+        }
+        
+        @media (max-width: 768px) {
+            .modules-table {
+                font-size: 0.9em;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .modules-table th,
+            .modules-table td {
+                padding: 10px 8px;
+            }
+        }
+        
+        .modules-table th {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .modules-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .modules-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .modules-table tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .progress-container {
+            width: 200px;
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        
+        .progress-90 { background: linear-gradient(90deg, #10b981, #059669); width: 90%; }
+        .progress-100 { background: linear-gradient(90deg, #059669, #047857); width: 100%; }
+        .progress-80 { background: linear-gradient(90deg, #3b82f6, #1d4ed8); width: 80%; }
+        .progress-70 { background: linear-gradient(90deg, #f59e0b, #d97706); width: 70%; }
+        .progress-0 { background: linear-gradient(90deg, #ef4444, #dc2626); width: 0%; }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.9em;
+            color: #6b7280;
+            text-align: center;
+        }
+        
+        /* Responsive design para móviles */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .company-logo {
+                max-width: 150px;
+            }
+            
+            .report-title {
+                font-size: 1.5em;
+            }
+            
+            .section-title {
+                font-size: 1.1em;
+                padding: 12px 15px;
+            }
+            
+            .calendar {
+                font-size: 0.8em;
+            }
+            
+            .progress-container {
+                width: 150px;
+                height: 16px;
+            }
+            
+            .progress-text {
+                font-size: 0.7em;
+            }
+        }
+        
+        @media print {
+            body { print-color-adjust: exact; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://sidgt.com/images/isologo.png" alt="SID Logo" class="company-logo">
+        <div class="header-text">
+            <div class="report-title">Informe del Proyecto UDV</div>
+            <div class="report-subtitle">Reuniones de seguimiento del sistema Class (Innovasoft)</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            1. Reuniones de Seguimiento - Class (Innovasoft)
+        </div>
+        
+        <div class="calendars-container">
+            <div class="calendar">
+                <div class="calendar-header">Julio 2025</div>
+                <div class="calendar-grid">
+                    <div class="day-header">Dom</div>
+                    <div class="day-header">Lun</div>
+                    <div class="day-header">Mar</div>
+                    <div class="day-header">Mié</div>
+                    <div class="day-header">Jue</div>
+                    <div class="day-header">Vie</div>
+                    <div class="day-header">Sáb</div>
+                    
+                    <div class="day other-month">29</div>
+                    <div class="day other-month">30</div>
+                    <div class="day">1</div>
+                    <div class="day">2</div>
+                    <div class="day">3</div>
+                    <div class="day">4</div>
+                    <div class="day">5</div>
+                    <div class="day">6</div>
+                    <div class="day">7</div>
+                    <div class="day">8</div>
+                    <div class="day">9</div>
+                    <div class="day">10</div>
+                    <div class="day">11</div>
+                    <div class="day">12</div>
+                    <div class="day">13</div>
+                    <div class="day meeting">14</div>
+                    <div class="day">15</div>
+                    <div class="day">16</div>
+                    <div class="day">17</div>
+                    <div class="day">18</div>
+                    <div class="day">19</div>
+                    <div class="day">20</div>
+                    <div class="day meeting">21</div>
+                    <div class="day">22</div>
+                    <div class="day">23</div>
+                    <div class="day">24</div>
+                    <div class="day">25</div>
+                    <div class="day">26</div>
+                    <div class="day">27</div>
+                    <div class="day">28</div>
+                    <div class="day">29</div>
+                    <div class="day">30</div>
+                    <div class="day">31</div>
+                </div>
+            </div>
+            
+            <div class="calendar">
+                <div class="calendar-header">Agosto 2025</div>
+                <div class="calendar-grid">
+                    <div class="day-header">Dom</div>
+                    <div class="day-header">Lun</div>
+                    <div class="day-header">Mar</div>
+                    <div class="day-header">Mié</div>
+                    <div class="day-header">Jue</div>
+                    <div class="day-header">Vie</div>
+                    <div class="day-header">Sáb</div>
+                    
+                    <div class="day other-month">27</div>
+                    <div class="day other-month">28</div>
+                    <div class="day other-month">29</div>
+                    <div class="day other-month">30</div>
+                    <div class="day other-month">31</div>
+                    <div class="day">1</div>
+                    <div class="day">2</div>
+                    <div class="day">3</div>
+                    <div class="day">4</div>
+                    <div class="day">5</div>
+                    <div class="day meeting">6</div>
+                    <div class="day">7</div>
+                    <div class="day">8</div>
+                    <div class="day">9</div>
+                    <div class="day">10</div>
+                    <div class="day">11</div>
+                    <div class="day">12</div>
+                    <div class="day meeting">13</div>
+                    <div class="day">14</div>
+                    <div class="day">15</div>
+                    <div class="day">16</div>
+                    <div class="day">17</div>
+                    <div class="day">18</div>
+                    <div class="day">19</div>
+                    <div class="day">20</div>
+                    <div class="day meeting">21</div>
+                    <div class="day">22</div>
+                    <div class="day">23</div>
+                    <div class="day">24</div>
+                    <div class="day">25</div>
+                    <div class="day">26</div>
+                    <div class="day">27</div>
+                    <div class="day meeting">28</div>
+                    <div class="day">29</div>
+                    <div class="day">30</div>
+                    <div class="day">31</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="meetings-summary">
+            <h3>Resumen de Reuniones de Seguimiento</h3>
+            
+            <div class="meeting-item">
+                <div class="meeting-date">14 de Julio, 2025</div>
+                <div class="meeting-description">
+                    Evaluación integral del plan de trabajo e identificación de puntos críticos de integración. Durante esta sesión inicial, manifestamos algunas inquietudes específicas sobre el módulo de integración de APIs
+                </div>
+            </div>
+            
+            <div class="meeting-item">
+                <div class="meeting-date">21 de Julio, 2025</div>
+                <div class="meeting-description">
+                    Segunda sesión de diagnóstico previo a la implementación de Class. Los usuarios manifiestan sus preocupaciones por las diferencias estructurales entre la versin Web y Limitless.
+                </div>
+            </div>
+            
+            <div class="meeting-item">
+                <div class="meeting-date">6 de Agosto, 2025</div>
+                <div class="meeting-description">
+                    Sesión de seguimiento y demostración técnica de las funcionalidades avanzadas de Class Limitless. 
+                </div>
+            </div>
+            
+            <div class="meeting-item">
+                <div class="meeting-date">13 de Agosto, 2025</div>
+                <div class="meeting-description">
+                    Seguimiento de actividades. Innovasoft comunicó oficialmente que el cronograma de trabajo detallado aún se encuentra en fase de refinamiento y que la presentación del mismo se programó para la siguiente semana.
+                </div>
+            </div>
+            
+            <div class="meeting-item">
+                <div class="meeting-date">21 de Agosto, 2025</div>
+                <div class="meeting-description">
+                    Doble sesión de seguimiento con el equipo técnico de Innovasoft. Se informa que ya se cuenta con el documento formal del cronograma de trabajo, el mismo sera remitido para revisión y comentarios.
+                </div>
+            </div>
+            
+            <div class="meeting-item">
+                <div class="meeting-date">28 de Agosto, 2025</div>
+                <div class="meeting-description">
+                    Sesión de seguimiento de avance. El Ing. Josué manifestó preocupaciones específicas sobre los canales de comunicación técnica, indicando que no está recibiendo información directa y actualizada sobre el desarrollo del módulo de integración de APIs.
+                </div>
+            </div>
+        </div>
+        <div class="nota">NOTA: Las anteriores son las únicas reniones en las que hemos sido convocados por lo que no podemos comentar sobre el resto ni su contenido</div>
+    </div>
+
+    <div class="footer">
+        <p><strong>SID - Sistemas Integrados Delta</strong></p>
+        <p>Informe generado el 8 de septiembre de 2025 | Proyecto UDV </p>
+    </div>
+</body>
+</html>
